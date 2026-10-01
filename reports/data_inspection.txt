@@ -1,0 +1,54 @@
+DATASET INSPECTION
+============================================================
+
+[dataset.csv]
+  shape            : 4920 rows x 18 columns
+  columns          : Disease, Symptom_1, Symptom_2, Symptom_3, Symptom_4, Symptom_5, Symptom_6, Symptom_7, Symptom_8, Symptom_9, Symptom_10, Symptom_11, Symptom_12, Symptom_13, Symptom_14, Symptom_15, Symptom_16, Symptom_17
+  dtypes           : str
+  missing cells    : 46992
+  duplicate rows   : 4616
+
+[symptom_Description.csv]
+  shape            : 41 rows x 2 columns
+  columns          : Disease, Description
+  dtypes           : str
+  missing cells    : 0
+  duplicate rows   : 0
+
+[symptom_precaution.csv]
+  shape            : 41 rows x 5 columns
+  columns          : Disease, Precaution_1, Precaution_2, Precaution_3, Precaution_4
+  dtypes           : str
+  missing cells    : 2
+  duplicate rows   : 0
+
+[Symptom-severity.csv]
+  shape            : 133 rows x 2 columns
+  columns          : Symptom, weight
+  dtypes           : int64, str
+  missing cells    : 0
+  duplicate rows   : 0
+
+Target / features (dataset.csv)
+  target variable  : Disease (categorical)
+  symptom columns  : 17 (Symptom_1 ... Symptom_17); each cell holds one symptom name or is empty
+  disease labels   : 41 classes, 120-120 rows each (perfectly balanced in the raw file)
+  distinct symptom strings : 131 raw -> 131 after normalisation
+  strings with leading/inner spaces or capitals : 130
+  disease names with stray whitespace           : 3 ['Diabetes ', 'Hypertension ', '(vertigo) Paroymsal  Positional Vertigo']
+
+Relationship between files
+  dataset.csv        -> training data (Disease + up to 17 symptom columns)
+  Symptom-severity   -> weight 1-7 per symptom (joined on a punctuation-insensitive key)
+      severity rows with no symptom in dataset.csv : ['prognosis']
+      dataset symptoms with no severity row        : []
+  symptom_Description / symptom_precaution -> looked up by disease name
+      disease keys missing from description file  : ['dimorphichemmorhoidspiles']
+      disease keys missing from precaution file   : []
+
+Preprocessing required: yes (whitespace/case normalisation of symptoms, whitespace
+cleanup of disease names, NaN padding removal, exact-duplicate removal, fuzzy join of
+disease names that are spelled differently across files).
+
+Spelling repairs applied when joining files:
+  description: fuzzy-matched 'dimorphichemorrhoidspiles' -> 'dimorphichemmorhoidspiles'

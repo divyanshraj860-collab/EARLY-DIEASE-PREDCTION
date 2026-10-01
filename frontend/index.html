@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SymptomLens - AI-Powered Disease Prediction</title>
+  <meta name="description" content="Analyze symptoms using a multi-model machine learning ensemble. Educational tool, not a medical diagnosis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="#predict" aria-label="SymptomLens home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M4 17h6l3-7 4 14 3-7h8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>SymptomLens</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="#predict" data-nav="predict">Predict</a>
+        <a href="#performance" data-nav="performance">Model performance</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===================== PREDICT VIEW ===================== -->
+    <section id="view-predict" class="view" data-view="predict">
+      <div class="hero">
+        <div class="wrap">
+          <h1>AI-Powered Disease Prediction</h1>
+          <p class="lead">Analyze symptoms using a multi-model machine learning ensemble. Six classifiers each estimate the probabilities of 41 diseases, and their estimates are combined by soft voting.</p>
+          <p class="notice" role="note"><strong>Not a medical diagnosis.</strong> This application provides an AI-based preliminary prediction based on the supplied symptoms and dataset. Consult a qualified healthcare professional for medical advice.</p>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <form id="predict-form" novalidate autocomplete="off">
+          <div class="form-grid">
+            <!-- Patient information -->
+            <section class="card" aria-labelledby="patient-h">
+              <h2 id="patient-h">Patient information</h2>
+              <p class="hint">Age and gender are shown in the report for context. The models use symptoms only, because the training data contains no age or gender columns.</p>
+              <div class="row-2">
+                <div class="field">
+                  <label for="age">Age (years) <span class="req">required</span></label>
+                  <input id="age" name="age" type="number" inputmode="numeric" min="1" max="120" step="1" required aria-describedby="age-err">
+                  <p class="field-error" id="age-err" role="alert"></p>
+                </div>
+                <div class="field">
+                  <label for="gender">Gender <span class="req">required</span></label>
+                  <select id="gender" name="gender" required aria-describedby="gender-err">
+                    <option value="">Select</option>
+                    <option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option>
+                  </select>
+                  <p class="field-error" id="gender-err" role="alert"></p>
+                </div>
+              </div>
+
+              <details class="optional">
+                <summary>Optional details</summary>
+                <div class="row-2">
+                  <div class="field"><label for="height">Height (cm)</label><input id="height" type="number" min="30" max="272" step="0.1" inputmode="decimal"></div>
+                  <div class="field"><label for="weight">Weight (kg)</label><input id="weight" type="number" min="2" max="650" step="0.1" inputmode="decimal"></div>
+                  <div class="field"><label for="blood_group">Blood group</label>
+                    <select id="blood_group"><option value="">Not specified</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option><option>Unknown</option></select></div>
+                  <div class="field"><label for="smoking_status">Smoking status</label>
+                    <select id="smoking_status"><option value="">Not specified</option><option>Never</option><option>Former</option><option>Current</option></select></div>
+                  <div class="field"><label for="alcohol_consumption">Alcohol consumption</label>
+                    <select id="alcohol_consumption"><option value="">Not specified</option><option>None</option><option>Occasional</option><option>Regular</option></select></div>
+                </div>
+                <div class="field"><label for="existing_conditions">Existing medical conditions</label><input id="existing_conditions" type="text" maxlength="400"></div>
+                <div class="field"><label for="allergies">Allergies</label><input id="allergies" type="text" maxlength="400"></div>
+                <div class="field"><label for="medications">Current medications</label><input id="medications" type="text" maxlength="400"></div>
+                <div class="field"><label for="family_history">Family medical history</label><input id="family_history" type="text" maxlength="400"></div>
+              </details>
+            </section>
+
+            <!-- Symptoms -->
+            <section class="card" aria-labelledby="symptom-h">
+              <div class="card-head">
+                <h2 id="symptom-h">Symptoms</h2>
+                <span class="count" id="sym-count" aria-live="polite">0 selected</span>
+              </div>
+              <div class="selected-box" id="chips" aria-label="Selected symptoms">
+                <p class="empty" id="chips-empty">No symptoms selected yet. Search below and tick the ones that apply.</p>
+              </div>
+              <div class="field">
+                <label for="sym-search">Search symptoms</label>
+                <input id="sym-search" type="search" placeholder="e.g. headache, rash, cough" aria-controls="sym-list">
+              </div>
+              <div class="list-meta">
+                <span id="sym-matches" aria-live="polite"></span>
+                <button type="button" class="link-btn" id="clear-symptoms">Clear all</button>
+              </div>
+              <ul class="sym-list" id="sym-list" aria-label="Available symptoms"><li class="empty">Loading symptoms...</li></ul>
+              <p class="hint">The number beside a symptom is its severity weight (1 low, 7 high) from the dataset. It is shown for context and is not a model input.</p>
+              <p class="field-error" id="symptoms-err" role="alert"></p>
+            </section>
+          </div>
+
+          <div class="submit-row">
+            <p class="alert" id="form-alert" role="alert" hidden></p>
+            <button type="submit" class="btn primary" id="predict-btn"><span class="spinner" aria-hidden="true"></span><span id="predict-label">Predict disease</span></button>
+          </div>
+        </form>
+
+        <!-- RESULTS -->
+        <section id="results" class="results" hidden aria-labelledby="result-h" tabindex="-1">
+          <div class="card result-main">
+            <div>
+              <p class="kicker" id="result-h">Most likely disease</p>
+              <p class="disease-name" id="res-disease"></p>
+              <p class="muted" id="res-agree"></p>
+            </div>
+            <div class="confidence">
+              <p class="conf-value" id="res-conf"></p>
+              <div class="bar big" aria-hidden="true"><span id="res-conf-bar"></span></div>
+              <p class="muted" id="res-mode"></p>
+            </div>
+          </div>
+          <ul class="warnings" id="res-warnings"></ul>
+
+          <div class="results-grid">
+            <section class="card" aria-labelledby="votes-h">
+              <h3 id="votes-h">How the six models voted</h3>
+              <p class="hint">Each row shows a model's own top choice and how sure that model is. The ensemble multiplies each model's probabilities by its weight and adds them up.</p>
+              <div class="votes" id="res-votes"></div>
+            </section>
+            <section class="card" aria-labelledby="alt-h">
+              <h3 id="alt-h">Ensemble probability by disease</h3>
+              <p class="hint">The five highest combined probabilities.</p>
+              <div class="alts" id="res-alts"></div>
+            </section>
+            <section class="card" aria-labelledby="desc-h">
+              <h3 id="desc-h">Description</h3>
+              <p id="res-desc"></p>
+              <h3 id="prec-h" class="sub">Recommended precautions</h3>
+              <ul class="checks" id="res-prec"></ul>
+              <p class="hint">Precautions come from the supplied dataset. They are general suggestions, not guaranteed treatment.</p>
+            </section>
+            <section class="card" aria-labelledby="in-h">
+              <h3 id="in-h">Your inputs</h3>
+              <div class="chips static" id="res-symptoms"></div>
+              <p class="muted" id="res-sev"></p>
+              <dl class="facts" id="res-patient"></dl>
+            </section>
+          </div>
+          <p class="notice" role="note"><strong>Not a medical diagnosis.</strong> This application provides an AI-based preliminary prediction based on the supplied symptoms and dataset. It is not a medical diagnosis. Consult a qualified healthcare professional for medical advice.</p>
+          <div class="result-actions">
+            <button type="button" class="btn" id="edit-btn">Edit symptoms</button>
+            <button type="button" class="btn" id="reset-btn">Start over</button>
+            <a class="btn" href="#performance">See model performance</a>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===================== PERFORMANCE VIEW ===================== -->
+    <section id="view-performance" class="view" data-view="performance" hidden>
+      <div class="hero compact"><div class="wrap">
+        <h1>Model performance</h1>
+        <p class="lead">Scores come from a held-out test set the models never saw during training or validation.</p>
+      </div></div>
+      <div class="wrap" id="perf-root"><p class="muted">Loading evaluation results...</p></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap">
+    <p>SymptomLens is an educational machine learning project. It is not a medical device and does not provide medical advice, diagnosis or treatment.</p>
+  </div></footer>
+
+  <script src="/static/script.js" defer></script>
+</body>
+</html>

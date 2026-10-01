@@ -1,0 +1,9 @@
+Model,Accuracy,Precision,Recall,F1_Score
+Random Forest,1.0000,1.0000,1.0000,1.0000
+Naive Bayes,0.9672,0.9553,0.9634,0.9545
+KNN,1.0000,1.0000,1.0000,1.0000
+SVC,0.9836,0.9919,0.9878,0.9870
+Decision Tree,0.6557,0.5921,0.5976,0.5699
+Gradient Boosting,0.8361,0.8022,0.8049,0.7845
+Ensemble (equal weights),0.9836,0.9919,0.9878,0.9870
+Ensemble (performance-weighted),0.9836,0.9919,0.9878,0.9870

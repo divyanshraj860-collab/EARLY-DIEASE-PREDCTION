@@ -1,0 +1,47 @@
+EVALUATION REPORT
+======================================================================
+
+Data preparation
+  raw rows                 : 4920
+  exact duplicates removed : 4616  (before splitting, to prevent leakage)
+  unique rows              : 304
+  ambiguous patterns       : 0 (same symptoms, different disease)
+  train / test rows        : 243 / 61  (stratified, random_state=42)
+  diseases / symptoms      : 41 / 131
+
+Test-set metrics (macro-averaged over 41 diseases; predictions = argmax of probabilities)
+
+                          Model  Accuracy  Precision  Recall  F1_Score
+                  Random Forest    1.0000     1.0000  1.0000    1.0000
+                    Naive Bayes    0.9672     0.9553  0.9634    0.9545
+                            KNN    1.0000     1.0000  1.0000    1.0000
+                            SVC    0.9836     0.9919  0.9878    0.9870
+                  Decision Tree    0.6557     0.5921  0.5976    0.5699
+              Gradient Boosting    0.8361     0.8022  0.8049    0.7845
+       Ensemble (equal weights)    0.9836     0.9919  0.9878    0.9870
+Ensemble (performance-weighted)    0.9836     0.9919  0.9878    0.9870
+
+Validation (stratified 4-fold CV on the training split only)
+  Random Forest      CV accuracy 1.0000 +/- 0.0000   CV macro-F1 1.0000 +/- 0.0000   test ROC-AUC (OvR) 1.0
+  Naive Bayes        CV accuracy 0.9053 +/- 0.0143   CV macro-F1 0.8455 +/- 0.0235   test ROC-AUC (OvR) 1.0
+  KNN                CV accuracy 0.9836 +/- 0.0116   CV macro-F1 0.9774 +/- 0.0173   test ROC-AUC (OvR) 1.0
+  SVC                CV accuracy 0.9835 +/- 0.0116   CV macro-F1 0.9821 +/- 0.0125   test ROC-AUC (OvR) 1.0
+  Decision Tree      CV accuracy 0.7408 +/- 0.0128   CV macro-F1 0.6842 +/- 0.0289   test ROC-AUC (OvR) 0.7945
+  Gradient Boosting  CV accuracy 0.8684 +/- 0.0109   CV macro-F1 0.8412 +/- 0.0334   test ROC-AUC (OvR) 0.9855
+
+Ensemble weighting
+  equal-weight validation macro-F1       : 0.9577
+  performance-weighted validation macro-F1: 0.9935  (weights re-estimated on the other folds for each held-out fold)
+  rule: weighted voting is used only if it wins by > 0.01 macro-F1
+  SELECTED MODE: performance_weighted
+  weights (performance-weighted): Random Forest 0.188, Naive Bayes 0.159, KNN 0.183, SVC 0.184, Decision Tree 0.128, Gradient Boosting 0.158
+
+Leakage demonstration
+  A naive split of the raw 4920 rows puts an exact copy of 100.0% of test rows in the training set
+  and gives Random Forest accuracy 100.0%. That number is inflated by duplicates and is NOT reported as model performance.
+
+Caveats
+  * Only 61 test rows (about 1-2 per disease): every metric has wide uncertainty.
+  * Most rows are subsets of the same disease's symptom pool, i.e. the data looks synthetic;
+    high scores do not imply clinical accuracy.
+  * Not a medical diagnosis system.

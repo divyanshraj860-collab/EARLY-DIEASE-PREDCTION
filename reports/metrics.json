@@ -1,0 +1,295 @@
+{
+  "dataset": {
+    "raw_rows": 4920,
+    "raw_duplicate_rows": 4616,
+    "n_diseases": 41,
+    "rows_per_disease_min": 120,
+    "rows_per_disease_max": 120,
+    "n_symptom_columns": 17,
+    "n_raw_symptom_strings": 131,
+    "n_symptoms_normalized": 131,
+    "symptom_strings_needing_cleanup": 130,
+    "disease_names_needing_cleanup": 3,
+    "severity_rows": 133,
+    "severity_unmatched_to_vocab": [
+      "prognosis"
+    ],
+    "vocab_unmatched_to_severity": [],
+    "rows_without_symptoms_dropped": 0,
+    "exact_duplicates_dropped": 4616,
+    "unique_rows": 304,
+    "ambiguous_symptom_patterns": 0,
+    "train_rows": 243,
+    "test_rows": 61,
+    "vocabulary_size": 131,
+    "test_only_symptoms_ignored": [],
+    "test_size": 0.2,
+    "cv_folds": 4,
+    "random_state": 42,
+    "classes": [
+      "(vertigo) Paroymsal Positional Vertigo",
+      "AIDS",
+      "Acne",
+      "Alcoholic hepatitis",
+      "Allergy",
+      "Arthritis",
+      "Bronchial Asthma",
+      "Cervical spondylosis",
+      "Chicken pox",
+      "Chronic cholestasis",
+      "Common Cold",
+      "Dengue",
+      "Diabetes",
+      "Dimorphic hemmorhoids(piles)",
+      "Drug Reaction",
+      "Fungal infection",
+      "GERD",
+      "Gastroenteritis",
+      "Heart attack",
+      "Hepatitis B",
+      "Hepatitis C",
+      "Hepatitis D",
+      "Hepatitis E",
+      "Hypertension",
+      "Hyperthyroidism",
+      "Hypoglycemia",
+      "Hypothyroidism",
+      "Impetigo",
+      "Jaundice",
+      "Malaria",
+      "Migraine",
+      "Osteoarthristis",
+      "Paralysis (brain hemorrhage)",
+      "Peptic ulcer diseae",
+      "Pneumonia",
+      "Psoriasis",
+      "Tuberculosis",
+      "Typhoid",
+      "Urinary tract infection",
+      "Varicose veins",
+      "hepatitis A"
+    ]
+  },
+  "models": {
+    "random_forest": {
+      "label": "Random Forest",
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "f1_weighted": 1.0,
+      "roc_auc_ovr_macro": 1.0,
+      "cv_accuracy_mean": 1.0,
+      "cv_accuracy_std": 0.0,
+      "cv_f1_mean": 1.0,
+      "cv_f1_std": 0.0
+    },
+    "naive_bayes": {
+      "label": "Naive Bayes",
+      "accuracy": 0.9672131147540983,
+      "precision": 0.9552845528455284,
+      "recall": 0.9634146341463414,
+      "f1": 0.9544715447154472,
+      "f1_weighted": 0.9606557377049181,
+      "roc_auc_ovr_macro": 1.0,
+      "cv_accuracy_mean": 0.9052595628415301,
+      "cv_accuracy_std": 0.014319357771470394,
+      "cv_f1_mean": 0.8455284552845528,
+      "cv_f1_std": 0.02353514605874819
+    },
+    "knn": {
+      "label": "KNN",
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "f1_weighted": 1.0,
+      "roc_auc_ovr_macro": 1.0,
+      "cv_accuracy_mean": 0.9836065573770492,
+      "cv_accuracy_std": 0.011591914445681119,
+      "cv_f1_mean": 0.9774390243902439,
+      "cv_f1_std": 0.017250099506275447
+    },
+    "svc": {
+      "label": "SVC",
+      "accuracy": 0.9836065573770492,
+      "precision": 0.991869918699187,
+      "recall": 0.9878048780487805,
+      "f1": 0.9869918699186992,
+      "f1_weighted": 0.9825136612021859,
+      "roc_auc_ovr_macro": 1.0,
+      "cv_accuracy_mean": 0.9835382513661202,
+      "cv_accuracy_std": 0.011592518175503446,
+      "cv_f1_mean": 0.9821138211382113,
+      "cv_f1_std": 0.012489667882713225
+    },
+    "decision_tree": {
+      "label": "Decision Tree",
+      "accuracy": 0.6557377049180327,
+      "precision": 0.5921409214092141,
+      "recall": 0.5975609756097561,
+      "f1": 0.5699186991869919,
+      "f1_weighted": 0.6371584699453551,
+      "roc_auc_ovr_macro": 0.7944811905746177,
+      "cv_accuracy_mean": 0.7407786885245902,
+      "cv_accuracy_std": 0.012756044670070398,
+      "cv_f1_mean": 0.6842140921409214,
+      "cv_f1_std": 0.02885280150674016
+    },
+    "gradient_boosting": {
+      "label": "Gradient Boosting",
+      "accuracy": 0.8360655737704918,
+      "precision": 0.8021680216802167,
+      "recall": 0.8048780487804879,
+      "f1": 0.784478935698448,
+      "f1_weighted": 0.8195727769498262,
+      "roc_auc_ovr_macro": 0.9855105415460934,
+      "cv_accuracy_mean": 0.8683743169398906,
+      "cv_accuracy_std": 0.010926186464564173,
+      "cv_f1_mean": 0.8411924119241192,
+      "cv_f1_std": 0.033374069012607144
+    }
+  },
+  "ensemble": {
+    "selected_mode": "performance_weighted",
+    "weights": {
+      "equal": {
+        "random_forest": 0.16666666666666666,
+        "naive_bayes": 0.16666666666666666,
+        "knn": 0.16666666666666666,
+        "svc": 0.16666666666666666,
+        "decision_tree": 0.16666666666666666,
+        "gradient_boosting": 0.16666666666666666
+      },
+      "performance_weighted": {
+        "random_forest": 0.18760009151223977,
+        "naive_bayes": 0.15862121558758485,
+        "knn": 0.18336765042324413,
+        "svc": 0.18424464272096394,
+        "decision_tree": 0.12835862629960093,
+        "gradient_boosting": 0.15780777345636646
+      }
+    },
+    "modes": {
+      "equal": {
+        "accuracy": 0.9836065573770492,
+        "precision": 0.991869918699187,
+        "recall": 0.9878048780487805,
+        "f1": 0.9869918699186992,
+        "f1_weighted": 0.9825136612021859,
+        "roc_auc_ovr_macro": 1.0,
+        "cv_accuracy_mean": 0.9712431693989071,
+        "cv_accuracy_std": 0.013531315598877446,
+        "cv_f1_mean": 0.9577235772357723,
+        "cv_f1_std": 0.010785771675952602
+      },
+      "performance_weighted": {
+        "accuracy": 0.9836065573770492,
+        "precision": 0.991869918699187,
+        "recall": 0.9878048780487805,
+        "f1": 0.9869918699186992,
+        "f1_weighted": 0.9825136612021859,
+        "roc_auc_ovr_macro": 1.0,
+        "cv_accuracy_mean": 0.9918032786885246,
+        "cv_accuracy_std": 0.008196721311475419,
+        "cv_f1_mean": 0.9934959349593496,
+        "cv_f1_std": 0.006504065040650375
+      }
+    },
+    "validation_macro_f1": {
+      "equal": 0.9577235772357723,
+      "performance_weighted": 0.9934959349593496
+    }
+  },
+  "rf_symptom_importance": [
+    {
+      "symptom": "fatigue",
+      "importance": 0.020371427737465198,
+      "severity": 4
+    },
+    {
+      "symptom": "joint_pain",
+      "importance": 0.019878919464545584,
+      "severity": 3
+    },
+    {
+      "symptom": "itching",
+      "importance": 0.019297292390954367,
+      "severity": 1
+    },
+    {
+      "symptom": "muscle_pain",
+      "importance": 0.019035472429205485,
+      "severity": 2
+    },
+    {
+      "symptom": "vomiting",
+      "importance": 0.01857212922043742,
+      "severity": 5
+    },
+    {
+      "symptom": "diarrhoea",
+      "importance": 0.017625443203751926,
+      "severity": 6
+    },
+    {
+      "symptom": "high_fever",
+      "importance": 0.017373959384773475,
+      "severity": 7
+    },
+    {
+      "symptom": "nausea",
+      "importance": 0.016954807207487366,
+      "severity": 5
+    },
+    {
+      "symptom": "loss_of_appetite",
+      "importance": 0.016767408108147787,
+      "severity": 4
+    },
+    {
+      "symptom": "headache",
+      "importance": 0.016339724087516577,
+      "severity": 3
+    },
+    {
+      "symptom": "dark_urine",
+      "importance": 0.015606646592095557,
+      "severity": 4
+    },
+    {
+      "symptom": "chills",
+      "importance": 0.015421441603347219,
+      "severity": 3
+    },
+    {
+      "symptom": "mild_fever",
+      "importance": 0.01536222837964252,
+      "severity": 5
+    },
+    {
+      "symptom": "yellowing_of_eyes",
+      "importance": 0.015337974435943199,
+      "severity": 4
+    },
+    {
+      "symptom": "abdominal_pain",
+      "importance": 0.015287376631678838,
+      "severity": 4
+    }
+  ],
+  "leakage_demo": {
+    "naive_split_test_rows_with_exact_copy_in_train": 1.0,
+    "naive_split_rf_accuracy": 1.0
+  },
+  "images": [
+    "model_comparison",
+    "confusion_matrix_random_forest",
+    "confusion_matrix_naive_bayes",
+    "confusion_matrix_knn",
+    "confusion_matrix_svc",
+    "confusion_matrix_decision_tree",
+    "confusion_matrix_gradient_boosting",
+    "confusion_matrix_ensemble"
+  ]
+}
