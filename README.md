@@ -22,19 +22,22 @@ An end-to-end machine learning web application that predicts the most likely dis
 
 The main prediction screen collects patient context such as age and gender, along with selectable symptoms and optional additional information.
 
-![SymptomLens prediction interface](screenshots/prediction-form.png)
+<img width="1710" height="1073" alt="image" src="https://github.com/user-attachments/assets/e4eb737a-dd65-4aef-b0b6-6e2d8788f2d6" />
+
 
 ### Prediction result
 
 The results dashboard shows the predicted disease, ensemble confidence, model voting details, and alternative disease probabilities.
 
-![SymptomLens prediction result](screenshots/prediction-result.png)
+<img width="1710" height="1073" alt="image" src="https://github.com/user-attachments/assets/ac70c161-05db-4299-a03e-dc0f16c12886" />
+
 
 ### Model performance
 
 The model-performance page presents held-out test-set metrics, validation results, and comparisons across the six classifiers and the two ensemble modes.
 
-![SymptomLens model performance](screenshots/model-performance.png)
+<img width="1710" height="1073" alt="image" src="https://github.com/user-attachments/assets/dbd59c18-58a5-49c5-ae39-2151b9598637" />
+
 
 
 ## Architecture
