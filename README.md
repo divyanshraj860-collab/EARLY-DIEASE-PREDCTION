@@ -6,6 +6,7 @@ An end-to-end machine learning web application that predicts the most likely dis
 
 ## Live Demo
 Try SymptomLens online: https://symptomlens-ai.onrender.com/
+
 Note: The hosted service may take a little longer to respond after inactivity. This project provides preliminary, educational predictions only and is not a medical diagnosis.
 
 Medical disclaimer. This application provides an AI-based preliminary prediction based on the supplied symptoms and dataset. It is not a medical diagnosis. Consult a qualified healthcare professional for medical advice. It is an educational/academic project and must not be used for clinical decisions.
